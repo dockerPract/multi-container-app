@@ -1,0 +1,32 @@
+language: generic 
+
+services:
+  - docker
+
+before_install:
+  - docker build -t kvs/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true kvs/react-test npm run test
+
+
+after_success:
+  - docker build -t kvs/multi-client ./client
+  - docker build -t kvs/multi-nginx ./nginx
+  - docker build -t kvs/multi-server ./server
+  - docker build -t kvs/multi-worker ./worker
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push kvs/react-test
+    
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "ap-south-1"
+#   app: "hosting-react-app"
+#   env: "hosting-react-app-env "
+#   bucket_name: "elasticbeanstalk-ap-south-1-765212525841"
+#   bucket_path: "hosting-react-app"
+#   on:
+#     branch: master
+#   access_key_id: "$AWS_ACCESS_KEY"
+#   secret_access_key: "$AWS_SECRET_KEY"

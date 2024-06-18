@@ -16,7 +16,11 @@ after_success:
   - docker build -t kvs/multi-server ./server
   - docker build -t kvs/multi-worker ./worker
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push kvs/react-test
+  - docker push kvs/multi-client
+  - docker push kvs/multi-nginx
+  - docker push kvs/multi-server
+  - docker push kvs/multi-worker
+  
     
 
 # deploy:

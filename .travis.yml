@@ -11,15 +11,15 @@ script:
 
 
 after_success:
-  - docker build -t kvs/multi-client ./client
-  - docker build -t kvs/multi-nginx ./nginx
-  - docker build -t kvs/multi-server ./server
-  - docker build -t kvs/multi-worker ./worker
+  - docker build -t kvs8382/multi-client ./client
+  - docker build -t kvs8382/multi-nginx ./nginx
+  - docker build -t kvs8382/multi-server ./server
+  - docker build -t kvs8382/multi-worker ./worker
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push kvs/multi-client
-  - docker push kvs/multi-nginx
-  - docker push kvs/multi-server
-  - docker push kvs/multi-worker
+  - docker push kvs8382/multi-client
+  - docker push kvs8382/multi-nginx
+  - docker push kvs8382/multi-server
+  - docker push kvs8382/multi-worker
   
     
 

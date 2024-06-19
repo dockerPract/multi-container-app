@@ -1,32 +1,32 @@
 {
-    "AWSEBDockerrunVersion": 3,
+    "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
             "name": "client",
             "image": "kvs8382/multi-client",
             "hostname": "client",
-            "essentials": false
+            "essential": false
         },
         {
             "name": "server",
             "image": "kvs8382/multi-server",
-            "hostname": "server",
-            "essentials": false
+            "hostname": "api",
+            "essential": false
         },
         {
             "name": "worker",
             "image": "kvs8382/multi-worker",
             "hostname": "worker",
-            "essentials": false
+            "essential": false
         },
         {
             "name": "nginx",
             "image": "kvs8382/multi-nginx",
             "hostname": "nginx",
-            "essentials": true,
+            "essential": true,
             "portMappings": [
                 {
-                    "hostPort": 3050,
+                    "hostPort": 80,
                     "containerPort": 80
                 }
             ],

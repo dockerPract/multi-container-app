@@ -5,7 +5,7 @@ class Fib extends Component {
   state = {
     seenIndexes: [],
     values: {},
-    index: ''
+    index: '',
   };
 
   componentDidMount() {
@@ -14,49 +14,28 @@ class Fib extends Component {
   }
 
   async fetchValues() {
-    try {
-      const values = await axios.get('/api/values/current');
-      console.log('Fetched values:', values.data);
-      this.setState({ values: values.data });
-    } catch (error) {
-      console.error('Error fetching current values:', error);
-    }
+    const values = await axios.get('/api/values/current');
+    this.setState({ values: values.data });
   }
 
   async fetchIndexes() {
-    try {
-      const seenIndexes = await axios.get('/api/values/all');
-      console.log('Fetched indexes:', seenIndexes.data);
-      this.setState({ seenIndexes: Array.isArray(seenIndexes.data) ? seenIndexes.data : [] });
-    } catch (error) {
-      console.error('Error fetching seen indexes:', error);
-    }
+    const seenIndexes = await axios.get('/api/values/all');
+    this.setState({
+      seenIndexes: seenIndexes.data,
+    });
   }
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      await axios.post('/api/values', {
-        index: this.state.index
-      });
-      this.setState({ index: '' });
-      // Optionally refetch values and indexes
-      this.fetchValues();
-      this.fetchIndexes();
-    } catch (error) {
-      console.error('Error submitting index:', error);
-    }
+    await axios.post('/api/values', {
+      index: this.state.index,
+    });
+    this.setState({ index: '' });
   };
 
   renderSeenIndexes() {
-    return this.state.seenIndexes.map(indexObj => {
-      if (typeof indexObj.number === 'number') {
-        return indexObj.number;
-      } else {
-        return null; // handle unexpected data structure
-      }
-    }).filter(number => number !== null).join(', ');
+    return this.state.seenIndexes.map(({ number }) => number).join(', ');
   }
 
   renderValues() {
@@ -80,7 +59,7 @@ class Fib extends Component {
           <label>Enter your index:</label>
           <input
             value={this.state.index}
-            onChange={event => this.setState({ index: event.target.value })}
+            onChange={(event) => this.setState({ index: event.target.value })}
           />
           <button>Submit</button>
         </form>
